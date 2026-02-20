@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profile Egunkari</title>
+  <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+    }
+
+    a {
+      color: #1e90ff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px 16px 60px;
+    }
+
+    /* Profile photo center top */
+    .profile-photo-wrapper {
+      position: relative;
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      border: 4px solid #ff1168;
+      margin: 20px auto 10px;
+      overflow: hidden;
+      background: #222;
+      cursor: default;
+    }
+    .profile-photo-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+    .verified-badge {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      background-color: #1e90ff;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #121212;
+    }
+
+    /* Username and stats */
+    .username {
+      text-align: center;
+      font-weight: 600;
+      font-size: 20px;
+      margin-top: 6px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .stats {
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-item .num {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .description {
+      text-align: center;
+      font-weight: 600;
+      margin-top: 12px;
+      line-height: 1.25em;
+      font-size: 15px;
+    }
+    .link-website {
+      text-align: center;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    .followers {
+      font-size: 14px;
+      color: #999;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Button group */
+    .button-group {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    button, .btn-icon {
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: 24px;
+      padding: 10px 24px;
+      font-size: 14px;
+      transition: background-color 0.25s ease;
+      background-color: #222;
+      color: #eee;
+      user-select: none;
+    }
+    button.follow-btn {
+      background-color: #0a84ff;
+      color: white;
+    }
+    button.follow-btn:hover {
+      background-color: #0661d4;
+    }
+    button.msg-btn:hover {
+      background-color: #333;
+      color: #1e90ff;
+    }
+    button.msg-btn {
+      background-color: transparent;
+      border: 1.8px solid #555;
+      color: #ddd;
+      padding: 10px 18px;
+    }
+
+    .btn-icon {
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #222;
+      border-radius: 24px;
+    }
+    .btn-icon:hover {
+      background-color: #1e90ff;
+    }
+    .btn-icon svg {
+      width: 26px;
+      height: 26px;
+      fill: #ddd;
+    }
+
+    /* Category icons row */
+    .category-row {
+      margin-top: 26px;
+      display: flex;
+      justify-content: space-around;
+      gap: 12px;
+      max-width: 360px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .category-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: default;
+      color: #bbb;
+      font-size: 13px;
+      font-weight: 600;
+      user-select: none;
+      width: 64px;
+    }
+    .category-item svg {
+      margin-bottom: 6px;
+      width: 30px;
+      height: 30px;
+      stroke: #bbb;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    /* Tabs */
+    .tabs {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-around;
+      border-bottom: 2px solid #222;
+      color: #888;
+      font-weight: 600;
+    }
+    .tabs button {
+      background: none;
+      border: none;
+      padding: 14px 0;
+      font-size: 17px;
+      color: inherit;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+      min-width: 90px;
+    }
+    .tabs button.active {
+      color: #1e90ff;
+      border-bottom-color: #1e90ff;
+    }
+
+    /* Content sections */
+    .content-section {
+      display: none;
+      margin-top: 20px;
+    }
+    .content-section.active {
+      display: block;
+    }
+
+    /* Catatan */
+    .note-card {
+      background-color: #222;
+      padding: 18px;
+      border-radius: 14px;
+      font-size: 15px;
+      line-height: 1.45;
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+    .note-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .note-header img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .note-username {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .note-verified {
+      background-color: #1e90ff;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      font-size: 11px;
+      color: white;
+      font-weight: 800;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1.5px solid #222;
+    }
+    .note-subtext {
+      color: #bbb;
+      font-size: 13px;
+      margin-top: -8px;
+    }
+
+    /* Album grid */
+    .album-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 14px;
+      user-select: none;
+    }
+    .album-item {
+      border-radius: 14px;
+      background-size: cover;
+      background-position: center;
+      height: 110px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.8);
+      transition: transform 0.15s ease;
+    }
+    .album-item:hover {
+      transform: scale(1.05);
+    }
+
+    /* Modal for album image */
+    .modal {
+      display: none; 
+      position: fixed; 
+      z-index: 9999; 
+      padding-top: 60px; 
+      left: 0;
+      top: 0;
+      width: 100vw; 
+      height: 100vh; 
+      overflow: auto; 
+      background-color: rgba(0,0,0,0.85);
+    }
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #1e90ff;
+      cursor: zoom-out;
+    }
+
+    /* Toko (Store items) */
+    .store-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .product-item {
+      background-color: #222;
+      border-radius: 14px;
+      display: flex;
+      gap: 18px;
+      padding: 16px;
+      align-items: center;
+    }
+    .product-image {
+      width: 120px;
+      height: 120px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 14px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+    }
+    .product-info {
+      flex-grow: 1;
+    }
+    .product-name {
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    .product-price {
+      font-weight: 600;
+      color: #1e90ff;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+    .btn-buy {
+      background-color: #0a84ff;
+      border: none;
+      border-radius: 24px;
+      color: white;
+      padding: 10px 28px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      box-shadow: 0 2px 8px rgb(10 132 255 / 0.7);
+    }
+    .btn-buy:hover {
+      background-color: #005bb5;
+    }
+
+    /* Scrollbar Styling for album (optional) */
+    .album-grid::-webkit-scrollbar {
+      height: 6px;
+    }
+    .album-grid::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .album-grid::-webkit-scrollbar-thumb {
+      background: #1e90ff;
+      border-radius: 3px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container" role="main" aria-label="Profil Egunkari">
+
+    <!-- Profile Photo -->
+    <div class="profile-photo-wrapper" aria-label="Foto profil Egunkari">
+      <img src="https://pbs.twimg.com/profile_images/1625336877034372097/3gpkl0Gd_400x400.jpg" alt="Foto profil Egunkari" />
+      <div class="verified-badge" aria-label="Akun terverifikasi" title="Verified">✔</div>
+    </div>
+
+    <!-- Username and stats -->
+    <div class="username" aria-label="Nama pengguna">
+      egunkari4219
+      <span aria-hidden="true" style="color:#1e90ff; margin-left:4px;">✔</span>
+    </div>
+
+    <div class="stats" aria-label="Statistik profil">
+      <div class="stat-item"><span class="num">10</span>postingan</div>
+      <div class="stat-item"><span class="num">983rb</span>pengikut</div>
+      <div class="stat-item"><span class="num">10</span>teman</div>
+    </div>
+
+    <div class="description" aria-label="Deskripsi profil">
+      Perusahaan Teknologi Informasi
+    </div>
+
+    <div class="link-website">
+      <a href="https://playlistku.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="Link website playlistku">playlistku.vercel.app</a>
+    </div>
+
+    <div class="followers" aria-label="Followers">
+      Diikuti oleh <b>Bjorka</b>
+    </div>
+
+    <!-- Buttons group -->
+    <div class="button-group" role="group" aria-label="Tombol aksi profil">
+      <button class="follow-btn" aria-pressed="false" onclick="toggleFollow(this)">Mengikuti</button>
+      <button class="msg-btn" onclick="window.open('https://wa.me/6282264605540', '_blank')" aria-label="Kirim pesan ke admin 082264605540">Kirim Pesan</button>
+      <button class="btn-icon" aria-label="Buka tab toko" onclick="openTab('toko')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+          viewBox="0 0 24 24"><path d="M6 2l1.5 9h9l1-6H7.5"></path><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle></svg>
+      </button>
+    </div>
+
+    <!-- Categories row -->
+    <div class="category-row" aria-label="Kategori konten">
+      <div class="category-item" aria-label="Kategori Coding">
+        <svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+        Coding
+      </div>
+      <div class="category-item" aria-label="Kategori Film">
+        <svg viewBox="0 0 24 24"><path d="M4 10h16v8H4z"/><path d="M7 6h10v12H7z"/></svg>
+        Film
+      </div>
+      <div class="category-item" aria-label="Kategori Music">
+        <svg viewBox="0 0 24 24"><path d="M9 19V6l12-2v13"/></svg>
+        Music
+      </div>
+      <div class="category-item" aria-label="Kategori Games">
+        <svg viewBox="0 0 24 24"><path d="M14 6h4v12h-4zM6 6h4v12H6z"/></svg>
+        Games
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <nav class="tabs" role="tablist" aria-label="Navigasi konten">
+      <button role="tab" id="tab-catatan" aria-selected="true" aria-controls="panel-catatan" class="active" onclick="switchTab(event, 'catatan')">Catatan</button>
+      <button role="tab" id="tab-album" aria-selected="false" aria-controls="panel-album" onclick="switchTab(event, 'album')">MyAlbum</button>
+      <button role="tab" id="tab-toko" aria-selected="false" aria-controls="panel-toko" onclick="switchTab(event, 'toko')">Toko</button>
+    </nav>
+
+    <!-- Content Sections -->
+    <section id="panel-catatan" role="tabpanel" aria-labelledby="tab-catatan" tabindex="0" class="content-section active">
+      <article class="note-card" aria-label="Catatan Egunkari">
+        <div class="note-header">
+          <img src="https://pbs.twimg.com/profile_images/1625336877034372097/3gpkl0Gd_400x400.jpg" alt="Foto profil Egunkari" />
+          <div>
+            <div class="note-username">Egunkari <span class="note-verified">✔</span></div>
+            <div class="note-subtext">@Egunkari · 15 Oktober 2025</div>
+          </div>
+        </div>
+        Aku menyayangi nya bahkan lebih dari yang dia tau, Aku menemukan rasa tenang disaat aku kacau, Aku menemukan rasa bahagia Aku menemukan senyuman yang sempat hilang. Aku tidak ingin kehilangan nya lagi Tapi kenapa takdir tidak berpihak
+      </article>
+    </section>
+
+    <section id="panel-album" role="tabpanel" aria-labelledby="tab-album" tabindex="0" class="content-section">
+      <div class="album-grid" aria-label="Gallery album foto">
+        <div tabindex="0" role="button" class="album-item" style="background-image: url('https://placekitten.com/200/200');" aria-label="Album Foto 1" onclick="openModal(this.style.backgroundImage)" onkeypress="if(event.key==='Enter'){openModal(this.style.backgroundImage);}"></div>
+        <div tabindex="0" role="button" class="album-item" style="background-image: url('https://placekitten.com/201/200');" aria-label="Album Foto 2" onclick="openModal(this.style.backgroundImage)" onkeypress="if(event.key==='Enter'){openModal(this.style.backgroundImage);}"></div>
+        <div tabindex="0" role="button" class="album-item" style="background-image: url('https://placekitten.com/202/200');" aria-label="Album Foto 3" onclick="openModal(this.style.backgroundImage)" onkeypress="if(event.key==='Enter'){openModal(this.style.backgroundImage);}"></div>
+        <div tabindex="0" role="button" class="album-item" style="background-image: url('https://placekitten.com/203/200');" aria-label="Album Foto 4" onclick="openModal(this.style.backgroundImage)" onkeypress="if(event.key==='Enter'){openModal(this.style.backgroundImage);}"></div>
+      </div>
+    </section>
+
+    <section id="panel-toko" role="tabpanel" aria-labelledby="tab-toko" tabindex="0" class="content-section">
+      <div class="store-list" aria-label="Daftar produk toko Egunkari">
+        <div class="product-item">
+          <div class="product-image" style="background-image: url('https://placekitten.com/300/300');" aria-label="Produk A"></div>
+          <div class="product-info">
+            <div class="product-name">Produk A</div>
+            <div class="product-price">Rp 150.000</div>
+            <button class="btn-buy" onclick="buyNow()" aria-label="Beli Produk A sekarang">Beli Sekarang</button>
+          </div>
+        </div>
+        <div class="product-item">
+          <div class="product-image" style="background-image: url('https://placekitten.com/301/300');" aria-label="Produk B"></div>
+          <div class="product-info">
+            <div class="product-name">Produk B</div>
+            <div class="product-price">Rp 200.000</div>
+            <button class="btn-buy" onclick="buyNow()" aria-label="Beli Produk B sekarang">Beli Sekarang</button>
+          </div>
+        </div>
+        <div class="product-item">
+          <div class="product-image" style="background-image: url('https://placekitten.com/302/300');" aria-label="Produk C"></div>
+          <div class="product-info">
+            <div class="product-name">Produk C</div>
+            <div class="product-price">Rp 300.000</div>
+            <button class="btn-buy" onclick="buyNow()" aria-label="Beli Produk C sekarang">Beli Sekarang</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal for album image fullscreen -->
+  <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-label="Gambar album besar" tabindex="-1" onclick="closeModal(event)">
+    <img id="modal-image" class="modal-content" alt="Gambar album tampilan besar" />
+  </div>
+
+  <!-- Audio autoplay -->
+  <audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Switch tab function
+    function switchTab(event, tab) {
+      const tabs = document.querySelectorAll('.tabs button');
+      const panels = document.querySelectorAll('.content-section');
+
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      panels.forEach(panel => {
+        panel.classList.remove('active');
+        panel.setAttribute('hidden', 'true');
+      });
+
+      event.currentTarget.classList.add('active');
+      event.currentTarget.setAttribute('aria-selected', 'true');
+      const target = document.getElementById(`panel-${tab}`);
+      target.classList.add('active');
+      target.removeAttribute('hidden');
+      target.focus();
+    }
+
+    // Open tab programmatically (for shopping bag icon)
+    function openTab(tab) {
+      const tabButton = document.getElementById(`tab-${tab}`);
+      if (tabButton) tabButton.click();
+    }
+
+    // Buy Now: Open WA admin
+    function buyNow() {
+      window.open('https://wa.me/6282264605530', '_blank');
+    }
+
+    // Toggle follow button
+    function toggleFollow(button) {
+      const pressed = button.getAttribute('aria-pressed') === 'true';
+      if (pressed) {
+        button.textContent = 'Mengikuti';
+        button.setAttribute('aria-pressed', 'false');
+        button.classList.add('follow-btn');
+      } else {
+        button.textContent = 'Ikuti';
+        button.setAttribute('aria-pressed', 'true');
+        button.classList.remove('follow-btn');
+      }
+    }
+
+    // Album modal open
+    function openModal(bgImage) {
+      const url = bgImage.slice(5, -2);
+      const modal = document.getElementById('modal');
+      const modalImg = document.getElementById('modal-image');
+      modalImg.src = url;
+      modal.style.display = 'block';
+      modal.setAttribute('aria-hidden', 'false');
+      modal.focus();
+    }
+
+    // Close modal if click outside image or press Esc
+    function closeModal(event) {
+      if(event.target === this || event.key === 'Escape') {
+        this.style.display = 'none';
+        this.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    // Close modal on ESC key
+    document.getElementById('modal').addEventListener('keydown', function(e) {
+      if(e.key === 'Escape') {
+        closeModal.call(this, e);
+      }
+    });
+  </script>
+
+</body>
+</html>
